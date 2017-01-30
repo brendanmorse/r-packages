@@ -1,6 +1,6 @@
 #' Standard Error Summary function
 #'
-#' This function calculates standard errors for groups and summarizes the data for clean plotting with ggplot2.
+#' This function calculates standard errors for groups and summarizes the data for clean plotting.
 #' @param data Specifies the dataframe/matrix. Required.
 #' @param measurevar Specifies the measured variable to be summarized. Required.
 #' @param groupvars Specifies the grouping variable(s). Required.

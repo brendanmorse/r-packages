@@ -19,7 +19,7 @@ summarySE(data = NULL, measurevar, groupvars = NULL, na.rm = FALSE,
 \item{conf.interval}{Specifies the desired confidence interval. Default = 95%}
 }
 \description{
-This function calculates standard errors for groups and summarizes the data for clean plotting with ggplot2.
+This function calculates standard errors for groups and summarizes the data for clean plotting.
 }
 \examples{
 x <- data.frame(condition = as.factor(c(rep("control", 50), rep("experimental", 50))), IQ = runif(100,90,110))
