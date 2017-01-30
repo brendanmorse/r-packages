@@ -17,9 +17,9 @@ descriptives(x, type = "sample", dig = 3, plot = F)
 This function calculates a suite of robust descriptive statistics for interval or ratio-scale data.
 }
 \examples{
-x<-runif(100,90,110)
+x <- runif(100,90,110)
 descriptives(x)	#returns an analysis of a distribution with (most likely) no outliers.
-x.2<-c(rnorm(100,100,15), 19, 12, 190)
+x.2 <- c(rnorm(100,100,15), 19, 12, 190)
 descriptives(x.2, type="p", plot=T)	#returns an analysis of a distribution with outliers using population formulas for variance and std. deviation and asks for the histogram.
 }
 
