@@ -15,7 +15,7 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 	require(ggplot2)
 	type <- tolower(type)
 	if(type!="sample" & type!="s" & type!="population" & type!="p"){
-		stop("Please specify whether your data as a sample or a population in the type option (default or ommitted option is sample). Note: this only affects the variance and std. deviation calculations.")}	else
+		stop("Please specify whether your data is a sample or a population in the type option (default or ommitted option is sample). Note: this only affects the variance and std. deviation calculations.")}	else
 	v.n <- length(x[!is.na(x)])
 	m.n <- length(x[is.na(x)])
 	mn <- mean(x, na.rm=T)
@@ -24,9 +24,9 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 		x <- sort(x)
 		mode.x <- as.data.frame(table(x))
 		if(var(mode.x$Freq, na.rm=T)==0)
-		mode.result <- data.frame(x=FALSE,Freq=FALSE)
+		mode.result <- data.frame(x="no mode",Freq="no mode")
 		else(mode.result <- subset(mode.x, mode.x$Freq==max(mode.x$Freq)))
-		aggregate(x ~ Freq, data=mode.result, paste, collapse=",")
+		aggregate(x ~ Freq, data=mode.result, paste, collapse=", ")
 		}
 	v <- ifelse(type=="population", var(x, na.rm=T)*(length(x[!is.na(x)])-1)/length(x[!is.na(x)]), var(x, na.rm=T))
 	s <- ifelse(type=="population", sd(x, na.rm=T)*sqrt((length(x[!is.na(x)])-1)/length(x[!is.na(x)])), sd(x, na.rm=T))
@@ -88,7 +88,19 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 		}
 	if(type=="sample" | type=="s"){	
 	if(is.list(dMADs(x))==T){	
-	       desc.out <- data.frame(cbind(c("valid n","missing","mean","median","modal value(s)","modal freq","sample variance","sample std. deviation","minimum","maximum","skew","kurtosis","potential outlier value(s)"), 
+	       desc.out <- data.frame(cbind(c("valid n",
+	                                      "missing",
+	                                      "mean",
+	                                      "median",
+	                                      "modal value(s)",
+	                                      "modal freq",
+	                                      "sample variance",
+	                                      "sample std. deviation",
+	                                      "minimum",
+	                                      "maximum",
+	                                      "skew",
+	                                      "kurtosis",
+	                                      "potential outlier value(s)"), 
 	       result=c(v.n,
 	                m.n,
 	                format(round(mn,dig),nsmall=dig),
@@ -104,7 +116,19 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 	                dMADs(x)[1]),
 	        cont.=c("", "", "", "", "", "", "", "", "", "", "", "", dMADs(x)[2])),
 	       row.names=T)	}	else
-	       desc.out <- data.frame(cbind(c("valid n","missing","mean","median","modal value(s)","modal freq","sample variance","sample std. deviation","minimum","maximum","skew","kurtosis","potential outlier value(s)"), 
+	       desc.out <- data.frame(cbind(c("valid n",
+	                                      "missing",
+	                                      "mean",
+	                                      "median",
+	                                      "modal value(s)",
+	                                      "modal freq",
+	                                      "sample variance",
+	                                      "sample std. deviation",
+	                                      "minimum",
+	                                      "maximum",
+	                                      "skew",
+	                                      "kurtosis",
+	                                      "potential outlier value(s)"), 
 	       result=c(v.n,
 	                m.n,
 	                format(round(mn,dig),nsmall=dig),
@@ -121,7 +145,19 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 	         	row.names=T)}	else
 	if(type=="population" | type=="p"){         	     	
 	if(is.list(dMADs(x))==T){	
-	       desc.out <- data.frame(cbind(c("valid n","missing","mean","median","modal value(s)","modal freq","population variance","population std deviation","minimum","maximum","skew","kurtosis","potential outlier value(s)"), 
+	       desc.out <- data.frame(cbind(c("valid n",
+	                                      "missing",
+	                                      "mean",
+	                                      "median",
+	                                      "modal value(s)",
+	                                      "modal freq",
+	                                      "population variance",
+	                                      "population std deviation",
+	                                      "minimum",
+	                                      "maximum",
+	                                      "skew",
+	                                      "kurtosis",
+	                                      "potential outlier value(s)"), 
 	       result=c(v.n,
 	                m.n,
 	                format(round(mn,dig),nsmall=dig),
@@ -137,7 +173,19 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 	                dMADs(x)[1]),
 	        cont.=c("", "", "", "", "", "", "", "", "", "", "", "", dMADs(x)[2])),
 	       row.names=T)	}	else
-	       desc.out <- data.frame(cbind(c("valid n","missing","mean","median","modal value(s)","modal freq","population variance","population std deviation","minimum","maximum","skew","kurtosis","potential outlier value(s)"), 
+	       desc.out <- data.frame(cbind(c("valid n",
+	                                      "missing",
+	                                      "mean",
+	                                      "median",
+	                                      "modal value(s)",
+	                                      "modal freq",
+	                                      "population variance",
+	                                      "population std deviation",
+	                                      "minimum",
+	                                      "maximum",
+	                                      "skew",
+	                                      "kurtosis",
+	                                      "potential outlier value(s)"), 
 	       result=c(v.n,
 	                m.n,
 	                format(round(mn,dig),nsmall=dig),
@@ -155,7 +203,15 @@ descriptives <- function(x, type="sample", dig=3, plot=F){
 	         	
 	if(plot==T){
 	nm <- deparse(substitute(x))	
-	desc.hist <- ggplot2::ggplot(as.data.frame(x), aes(x=as.data.frame(x))) + ggplot2::geom_histogram(color="lightgray", fill="#2471A3") + ggplot2::labs(title=paste0("Histogram of ",nm), x=nm) + ggplot2::scale_x_continuous(expand=c(0,0)) + scale_y_continuous(expand=c(0,0)) + ggplot2::theme_classic() + ggplot2::theme(axis.line.x=element_line(color="black", size=0.25, linetype="solid"), axis.line.y=element_line(color="black", size=0.25, linetype="solid"), plot.title = element_text(hjust = 0.5))
+	desc.hist <- ggplot2::ggplot(as.data.frame(x), aes(x=as.data.frame(x))) + 
+	             ggplot2::geom_histogram(color="lightgray", fill="#2471A3") + 
+	             ggplot2::labs(title=paste0("Histogram of ",nm), x=nm) + 
+	             ggplot2::scale_x_continuous(expand=c(0,0)) + 
+	             ggplot2::scale_y_continuous(expand=c(0,0)) + 
+	             ggplot2::theme_classic() + 
+	             ggplot2::theme(axis.line.x=element_line(color="black", size=0.25, linetype="solid"), 
+	                            axis.line.y=element_line(color="black", size=0.25, linetype="solid"), 
+	                            plot.title = element_text(hjust = 0.5))
 	suppressMessages(print(desc.hist))
 	return(descriptives=desc.out)}	else	return(descriptives=desc.out)
 	}
